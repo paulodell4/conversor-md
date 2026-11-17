@@ -1,0 +1,5 @@
+markitdown[all]
+imageio-ffmpeg
+pystray
+pillow
+pywin32; sys_platform == "win32"
