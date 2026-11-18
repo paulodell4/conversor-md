@@ -43,7 +43,7 @@ def passos_instalacao():
         return msg
 
     return [
-        ("Python", lambda avisar: c.registrar_python() + ". " + _seguro(c.verificar_atualizacao_python), True),
+        ("Python", lambda avisar: (c.registrar_python(), _seguro(c.verificar_atualizacao_python))[1], True),
         ("Bibliotecas de conversão (MarkItDown, ffmpeg)", c.instalar_bibliotecas, True),
         ("Node.js (necessário para o OpenWhispr)", node, False),
         ("Ferramenta de transcrição do OpenWhispr", c.instalar_cli_openwhispr, False),
@@ -105,8 +105,9 @@ def janela() -> int:
 
     raiz = tk.Tk()
     raiz.title("Conversor MD: instalação")
-    raiz.geometry("620x560")
-    raiz.resizable(False, False)
+    raiz.geometry("640x720")
+    raiz.minsize(600, 600)
+    raiz.resizable(True, True)
     try:
         raiz.iconbitmap(str(Path(__file__).with_name("icone.ico")))
     except Exception:  # noqa: BLE001
@@ -184,10 +185,10 @@ def janela() -> int:
             if problemas:
                 texto += "\n\nAviso: áudio e vídeo podem não funcionar ainda. Os documentos funcionam."
             cor = "#065f46"
+        botoes = tk.Frame(rodape, bg="white")
+        botoes.pack(side="bottom", anchor="e", pady=(10, 0))  # botões sempre visíveis
         tk.Label(rodape, text=texto, font=("Segoe UI", 9), bg="white", fg=cor,
                  justify="left", anchor="w").pack(fill="x")
-        botoes = tk.Frame(rodape, bg="white")
-        botoes.pack(anchor="e", pady=(10, 0))
         if not criticos:
             def abrir_ow():
                 from motor import localizar_openwhispr_app
